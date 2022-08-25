@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h2 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+table {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+  outline-style: ridge;
+}
+
+td, th {
+  border: 1px solid #0f0909;
+  text-align: center;
+  padding: 8px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<script src = "./nchealth.js"></script>
+<body>
+
+<h2>Cardiovascular Disease (CVD) Death Rates in NC Counties</h2>
+
+<table id = "mytable">
+  <tr>
+    <th>County</th>
+    <th>Population</th>
+    <th>CVD Death Rate per 100,000 People</th>
+  </tr>
+</table>
+
+</body>
+
+<script>
+    
+    var x = document.getElementById('mytable')
+
+        for (var  i = 0; i < nchealth.objects.length; i++){
+        var myNewRow = document.createElement('tr');
+        var myNewCell1 = document.createElement('td');
+        var myNewCell2 = document.createElement('td');
+        var myNewCell3 = document.createElement('td');
+
+        myNewCell1.innerText = nchealth.objects[i].properties.NC_Counties_County;
+        myNewCell2.innerText = nchealth.objects[i].properties['NC_Counties_2015 NCHS Bridged Pop: total pop'];
+        myNewCell3.innerText = nchealth.objects[i].properties['NC_Counties_Age-adjusted CVD Dth Rates: 2011-2015'];
+
+        if (nchealth.objects[i].properties['NC_Counties_Age-adjusted CVD Dth Rates: 2011-2015'] <= 200) {myNewCell3.style.backgroundColor = 'green'}
+        if (nchealth.objects[i].properties['NC_Counties_Age-adjusted CVD Dth Rates: 2011-2015'] > 200 && nchealth.objects[i].properties['NC_Counties_Age-adjusted CVD Dth Rates: 2011-2015'] < 250) {myNewCell3.style.backgroundColor = 'yellow'}
+        if (nchealth.objects[i].properties['NC_Counties_Age-adjusted CVD Dth Rates: 2011-2015'] >= 250) {myNewCell3.style.backgroundColor = 'red'}
+
+
+        myNewRow.append(myNewCell1);
+        myNewRow.append(myNewCell2);
+        myNewRow.append(myNewCell3);
+
+        x.append(myNewRow);
+
+        }
+</script>
+</html>
+
