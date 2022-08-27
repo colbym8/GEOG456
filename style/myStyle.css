@@ -19,6 +19,11 @@
     color: green;
   }
 
+  h3 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: rgb(20, 73, 20);
+  }
+
   #outlineint {
     background-color: lightcyan;
   }
