@@ -24,6 +24,9 @@
     color: rgb(20, 73, 20);
   }
 
+  p {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
   #outlineint {
     background-color: lightcyan;
   }
