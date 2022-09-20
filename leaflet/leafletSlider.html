@@ -4,68 +4,136 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Leaflet with Slider</title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
     integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
     crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-   crossorigin=""></script>
+   crossorigin="">
+    </script>
    <script src="./aws.js"></script>
 </head>
+
+<style>
+        h1 {
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 36px;
+        position: relative;
+        top: 10%;
+        text-align: center;
+        outline-style: ridge;
+        -webkit-text-stroke-width: 1px;}
+
+    h2 {
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        text-align: "center";
+        position: "relative";}
+    h3 {
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+</style>
+<style>
+    .legend {
+        line-height: 18px;
+        color: #000;
+        background-color: #ffffff;}
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7; }
+</style>
 <style>
     #map { height: 400px;
-        background-color: aquamarine; }
+        width: 900px;
+        background-color: lightslategray;
+        text-align: center; }
 </style>
+
 <body>
-</br>
-    <h3 id="theYear">Year</h3>
-    <input type="range" name="year" min="2012" max="2020" oninput="moveSlider(this.value)">
+<h1>Annual Residential Water Use in Austin, Texas</h1>
+
+    <h2 id="theYear">Year</h2>
+    <input type="range" name="year" value="2012" min="2012" max="2020" oninput="moveSlider(this.value)">
     <div id="map"></div>
+    <div class="legend"></div>
 
     <script>
-        var map = L.map('map').setView([30.293322656220493, -97.74882492684549], 9);
+        var map = L.map('map').setView([30.293322656220493, -97.74882492684549], 10);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
         }).addTo(map);
 
-        // function myStyle() {
-        //     return {
-        //     "color": "orange",
-        //     "weight": 2.0,
-        //     "opacity": 0.65
-        //     }
-        // };
-
+    
+        var selectedYear = '2012'
         function myStyle(feature) {
+            // console.log(feature.properties[selectedYear]) //look at the console log and notice that the selected year will call the property of the geojson and give you the data for that feature. 
+            // console.log(getColor(feature.properties[selectedYear])) //look at the console log and notice that the selected year will result in a color. 
+
             return {
-            "color": getColor(aws[0].year),
-            "weight": 2.0,
-            "opacity": 2.0
+            "fillColor": getColor(feature.properties[selectedYear]),
+            "color": "black",// notice that the selected year will call the property of the geojson
+            "weight": 0.75,
+            "opacity": 2.0,
+            "fillOpacity": 0.75
             }
         };
 
-        function getColor(d) {
-            return
-            d = myYear ? "blue" :
-            g >= 1000000 && g < 5000000 ? "green":
-            g >= 5000000 && g < 10000000 ? "yellow":
-            g >= 10000000 && g < 50000000 ? "orange" :
-            "red"
+        function getColor(waterConsumption) {
+            return waterConsumption < 5000000 ? "#f7fbff" // try to make a better color scheme 
+            :waterConsumption < 10000000 ? "#9ecae1" 
+            :waterConsumption < 50000000 ? "#4292c6"
+            : "#08306b";
         };
 
-        var year = ['2012','2013','2014','2015','2016','2017','2018','2019','2020']
-        var austinWater = L.geoJSON(aws[0].year[0], {style: myStyle}).addTo(map);
+        var austinWater = L.geoJSON(aws, {style: myStyle}).addTo(map);
 
         function moveSlider(value) {
-            document.getElementById('theYear').innerHTML = 'Year: '+ value
-            myYear = value
+            // console.log(value)
+            selectedYear = value; // this changes the value of the selectedYear variable
+            austinWater.remove() // this removes the geojson 
+            austinWater = L.geoJSON(aws, {style: myStyle}).addTo(map); // this creates a new geojson, this time it will be based on the new selected Year 
+            document.getElementById('theYear').innerHTML = 'Year: '+ value  
         }
+        moveSlider('2012')
 
-        moveSlider('2016')
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 5000000, 10000000, 50000000],
+                labels = ['<strong> Total Water Use in Gallons </strong>'];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+        legend.addTo(map);
+
+        var legendTitle = L.control({position: 'bottomright'});
+            legendTitle.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                this.update();
+                return this._div;
+            };
+
+            // method that we will use to update the control based on feature properties passed
+            legendTitle.update = function (props) {
+                this._div.innerHTML = '<h3><u>Total Water in Gallons</u></h3>';
+            };
+            legendTitle.addTo(map);
     </script>
-    <p>Data from: https://data.austintexas.gov/Utilities-and-City-Services/Austin-Water-Residential-Water-Consumption/sxk7-7k6z<br>
-        https://data.austintexas.gov/dataset/Boundaries-Zip-Code-Tabulation-Areas-2017/nf4y-c7ue</p>
+    <ul>
+        <li><a href="https://data.austintexas.gov/Utilities-and-City-Services/Austin-Water-Residential-Water-Consumption/sxk7-7k6z"><h3>Austin Water - Residential Water Consumption (CSV)</h3></a></li>
+        <li><a href="https://data.austintexas.gov/dataset/Boundaries-Zip-Code-Tabulation-Areas-2017/nf4y-c7ue"><h3>Boundaries: Zipcode Tabulation Areas, 2017 (Shapefile)</h3></a></li>
+    </ul>
 </body>
 </html>
