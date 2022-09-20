@@ -11,17 +11,18 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
    crossorigin=""></script>
-   <script src="./austin_water_by_zip.js"></script>
+   <script src="./aws.js"></script>
 </head>
 <style>
-    #map { height: 450px;
+    #map { height: 400px;
         background-color: aquamarine; }
 </style>
 <body>
 </br>
-    <h3 id="daYear">Year</h3>
+    <h3 id="theYear">Year</h3>
     <input type="range" name="year" min="2012" max="2020" oninput="moveSlider(this.value)">
     <div id="map"></div>
+
     <script>
         var map = L.map('map').setView([30.293322656220493, -97.74882492684549], 9);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -29,36 +30,37 @@
         attribution: '© OpenStreetMap'
         }).addTo(map);
 
-        function myStyle() {
-            return {
-            "color": "orange",
-            "weight": 2.0,
-            "opacity": 0.65
-            }
-        };
-
         // function myStyle() {
         //     return {
-        //     "color": getColor(feature.properties.awbz),
+        //     "color": "orange",
         //     "weight": 2.0,
         //     "opacity": 0.65
         //     }
         // };
 
-        // function getColor(g) {
-        //     return
-        //     g < 1000000 ? "blue" :
-        //     // && g >= 1000000 && g < 5000000 ? "green" &&
-        //     // g >= 5000000 && g < 10000000 ? "yellow" &&
-        //     // g >= 10000000 && g < 50000000 ? "orange" :
-        //     "red"
-        // };
+        function myStyle(feature) {
+            return {
+            "color": getColor(aws[0].year),
+            "weight": 2.0,
+            "opacity": 2.0
+            }
+        };
 
-        L.geoJSON(awbz, {style: myStyle}).addTo(map);
+        function getColor(d) {
+            return
+            d = myYear ? "blue" :
+            g >= 1000000 && g < 5000000 ? "green":
+            g >= 5000000 && g < 10000000 ? "yellow":
+            g >= 10000000 && g < 50000000 ? "orange" :
+            "red"
+        };
+
+        var year = ['2012','2013','2014','2015','2016','2017','2018','2019','2020']
+        var austinWater = L.geoJSON(aws[0].year[0], {style: myStyle}).addTo(map);
 
         function moveSlider(value) {
-            console.log(value)
-            document.getElementById('daYear').innerHTML = 'Year: '+ value
+            document.getElementById('theYear').innerHTML = 'Year: '+ value
+            myYear = value
         }
 
         moveSlider('2016')
