@@ -99,13 +99,12 @@
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'info legend'),
                 grades = [0, 5000000, 10000000, 50000000],
-                labels = ['<strong> Total Water Use in Gallons </strong>'];
+                labels = [];
 
-            // loop through our density intervals and generate a label with a colored square for each interval
             for (var i = 0; i < grades.length; i++) {
                 div.innerHTML +=
                     '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + ' gal'+ '<br>' : '+ gal');
             }
             return div;
         };
@@ -118,7 +117,6 @@
                 return this._div;
             };
 
-            // method that we will use to update the control based on feature properties passed
             legendTitle.update = function (props) {
                 this._div.innerHTML = '<h3><u>Total Water in Gallons</u></h3>';
             };
