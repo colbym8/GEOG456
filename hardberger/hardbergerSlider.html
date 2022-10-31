@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider</title>
+</head>
+<style>
+    img{
+        position: absolute;
+        height: 400px;
+    }
+</style>
+<body>
+    <h1>Hardberger Park Landbridge</h1>
+
+    <input type="range" min="0" max="1" value="1" step=".1" orient="vertical" oninput="mySlider(this.value)"/>
+    
+    <img id='before' src="./png/hbp2018.png" alt="" width="900px">
+    <img id='after' src="./png/hbp2020.png" alt="" width="900px">
+    
+
+<script>
+    var after = document.getElementById('after')
+    function mySlider(value){
+        after.style.opacity = value;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Images</title>
+</head>
+<style>
+    .column {
+  float: left;
+  width: 33%;
+  padding: 2px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+<body>
+    <h1>Hardberger Park in 2005, 2018, & 2020 </h1>
+        <div class="row">
+        <div class="column">
+          <img src="./png/hbp2005.png" alt="2005" style="width:100%">
+        </div>
+        <div class="column">
+          <img src="./png/hbp2018.png" alt="2018" style="width:100%">
+        </div>
+        <div class="column">
+          <img src="./png/hbp2020.png" alt="2020" style="width:100%">
+        </div>
+      </div>
+</body>
+</html>

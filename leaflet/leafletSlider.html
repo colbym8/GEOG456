@@ -78,7 +78,7 @@
         };
 
         function getColor(waterConsumption) {
-            return waterConsumption < 5000000 ? "#f7fbff" // try to make a better color scheme 
+            return waterConsumption < 5000000 ? "#f7fbff" 
             :waterConsumption < 10000000 ? "#9ecae1" 
             :waterConsumption < 50000000 ? "#4292c6"
             : "#08306b";
@@ -112,7 +112,7 @@
 
         var legendTitle = L.control({position: 'bottomright'});
             legendTitle.onAdd = function (map) {
-                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                this._div = L.DomUtil.create('div', 'info');
                 this.update();
                 return this._div;
             };

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Buttons</title>
+    <style>
+        img{
+            position: absolute;
+            height: 400px;
+        }
+        button{
+        position: absolute;
+            top: 470px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hardberger Park Landbridge</h1>
+
+    <img id='after' src="./png/hbp2020.png" alt="">
+    <img id='another' src="./png/hbp2018.png" alt="">
+    <img id='before' src="./png/hbp2005.png" alt="">
+    <button style="left:10px" onclick="myFunction('after')">2020</button>
+    <button style="left:100px" onclick="myFunction('another')">2018</button>
+    <button style="left:200px" onclick="myFunction('before')">2005</button>
+    <script>
+        function myFunction(id){
+            var imgs = document.getElementsByTagName('img')
+            for(var i = 0; i < imgs.length; i++){imgs[i].style.visibility='hidden'}
+            var daImg = document.getElementById(id)
+            daImg.style.visibility = 'visible'
+        }
+    </script>
+</body>
+</html>
