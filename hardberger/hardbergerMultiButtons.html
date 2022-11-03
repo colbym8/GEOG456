@@ -26,18 +26,25 @@
         padding-left: 20px;
         padding-right: 20px;
         }
+        /* h2{
+        position: absolute;
+        visibility: hidden,
+        } */
     </style>
 </head>
 <body>
     <h1>Hardberger Park Landbridge</h1>
-
-        <img id='after' src="./png/hbp2020.png" alt="">
-        <img id='another' src="./png/hbp2018.png" alt="">
-        <img id='before' src="./png/hbp2005.png" alt="">
-
-    <button style="left:10px" onclick="myFunction('after')">2020</button>
-    <button style="left:100px" onclick="myFunction('another')">2018</button>
-    <button style="left:200px" onclick="myFunction('before')">2005</button>
+    <div>
+        <!-- <h2 class="c2005" id="beforeC">in 2005</h2>
+        <h2 class="c2018" id="anotherC">in 2018</h2>
+        <h2 class="c2020" id="afterC">in 2020</h2> -->
+        <img class="c2020"id='after' src="./png/hbp2020.png" alt="">
+        <img class="c2018"id='another' src="./png/hbp2018.png" alt="">
+        <img class="c2020"id='before' src="./png/hbp2005.png" alt="">
+        <button style="left:10px" onclick="myFunction('c2020')">2020</button>
+        <button style="left:100px" onclick="myFunction('c2018')">2018</button>
+        <button style="left:200px" onclick="myFunction('c2005')">2005</button>
+    </div>
     <script>
         function myFunction(id){
             var imgs = document.getElementsByTagName('img')
@@ -45,6 +52,12 @@
             var daImg = document.getElementById(id)
             daImg.style.visibility = 'visible'
         }
+        // function myFunction(id){
+        //     var imgs = document.getElementsByTagName('h1')
+        //     for(var i = 0; i < imgs.length; i++){imgs[i].style.visibility='hidden'}
+        //     var daImg = document.getElementById(id)
+        //     daImg.style.visibility = 'visible'
+        // }
     </script>
 </body>
 </html>
