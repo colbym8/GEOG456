@@ -5,13 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaflet with Slider</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
-    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-    crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-    crossorigin="">
-    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="crossorigin=""></script>
+    
     <script src="./aws.js"></script>
     <style>
         h1 {
@@ -51,6 +47,7 @@
 <body>
     <h1>Annual Residential Water Use in Austin, Texas</h1>
     <h2 id="theYear">Year</h2>
+    
         <input type="range" name="year" value="2012" min="2012" max="2020" oninput="moveSlider(this.value)">
         <div id="map"></div>
         <div class="legend"></div>
@@ -87,7 +84,6 @@
         var austinWater = L.geoJSON(aws, {style: myStyle}).addTo(map);
 
         function moveSlider(value) {
-            // console.log(value)
             selectedYear = value; // this changes the value of the selectedYear variable
             austinWater.remove() // this removes the geojson 
             austinWater = L.geoJSON(aws, {style: myStyle}).addTo(map); // this creates a new geojson, this time it will be based on the new selected Year 
@@ -95,6 +91,7 @@
         }
         moveSlider('2012')
 
+        // legend
         var legend = L.control({position: 'bottomright'});
         legend.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'info legend'),
